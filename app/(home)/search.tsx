@@ -2,15 +2,15 @@
 
 function SearchBar() {
   return (
-    <form className="flex w-full max-w-f justify-center items-center font-mono text-sm lg:max-w-5xl">
+    <form className="max-w-f flex w-full flex-col items-center justify-center gap-2 text-sm md:flex-row md:gap-0 lg:max-w-5xl">
       <input
         type="search"
         placeholder="Search for a recipe"
-        className="flex w-full bg-black border-b border-white py-6 dark:from-inherit lg:p-4 lg:rounded-xl lg:border"
+        className="flex w-full rounded-lg border border-amber-400 bg-white p-4 md:rounded-r-none"
       />
       <button
         type="submit"
-        className="font-semibold uppercase p-6 lg:p-4 lg:ml-6"
+        className="w-full rounded-lg border border-amber-400 bg-amber-400 p-4 font-semibold uppercase text-white transition-colors md:w-auto md:rounded-l-none md:border-l-0 md:hover:bg-white md:hover:text-amber-400"
       >
         search
       </button>
