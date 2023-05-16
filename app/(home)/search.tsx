@@ -2,7 +2,7 @@
 
 function SearchBar() {
   return (
-    <form className="max-w-f flex w-full flex-col items-center justify-center gap-2 text-sm md:flex-row md:gap-0 lg:max-w-5xl">
+    <form className="flex w-full flex-col items-center justify-center gap-2 text-sm md:flex-row md:gap-0">
       <input
         type="search"
         placeholder="Search for a recipe"
