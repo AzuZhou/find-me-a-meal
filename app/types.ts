@@ -64,7 +64,7 @@ type Ingredient = {
   image: string;
 };
 
-interface ExtendedIngredient extends Ingredient {
+export interface ExtendedIngredient extends Ingredient {
   aisle: string;
   consistency: string;
   nameClean: string;
@@ -80,4 +80,11 @@ interface Measure {
   amount: number;
   unitShort: string;
   unitLong: string;
+}
+
+export interface Substitute {
+  ingredient: string;
+  substitutes: string[];
+  message?: string;
+  status?: string;
 }

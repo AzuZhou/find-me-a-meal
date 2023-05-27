@@ -1,14 +1,16 @@
+import { Suspense } from "react";
 import Image from "next/image";
-// @ts-ignore
-import { checkIngredients } from "is-vegan";
+
+import Subtitutes from "./substitutes";
+
 import { Recipe } from "types";
 
 import { vollkorn } from "utils/fonts";
 
 async function getRandomRecipe(): Promise<{ recipes: Array<Recipe> }> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_SPOONACULAR_BASE_URL}/recipes/random/?apiKey=${process.env.SPOONACULAR_API_KEY}&number=1`,
-    { next: { revalidate: 60 } }
+    `${process.env.NEXT_PUBLIC_SPOONACULAR_BASE_URL}/recipes/random?apiKey=${process.env.SPOONACULAR_API_KEY}&number=1`,
+    { next: { revalidate: 10 } }
   );
 
   if (!res.ok) {
@@ -21,17 +23,9 @@ async function getRandomRecipe(): Promise<{ recipes: Array<Recipe> }> {
 
 async function RandomRecipe() {
   const { recipes } = await getRandomRecipe();
-  console.log("recipes: ", recipes);
 
   const { title, summary, image, vegan, extendedIngredients } = recipes[0];
 
-  const nonVeganIngredients =
-    !vegan &&
-    checkIngredients(
-      extendedIngredients.map((ingredient) => ingredient.nameClean)
-    ).nonvegan;
-
-  console.log("nonVeganIngredients: ", nonVeganIngredients);
   return (
     <article className="my-20 flex flex-col lg:my-32">
       <section className="flex flex-col">
@@ -56,10 +50,12 @@ async function RandomRecipe() {
         </div>
       </section>
 
-      <section>
-        <h3>Substitutes</h3>
-        <p>{nonVeganIngredients}</p>
-      </section>
+      {!vegan && (
+        <Suspense fallback={<p>Loading substitutes...</p>}>
+          {/* @ts-expect-error Server Component */}
+          <Subtitutes extendedIngredients={extendedIngredients} />
+        </Suspense>
+      )}
     </article>
   );
 }
