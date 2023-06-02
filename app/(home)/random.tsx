@@ -10,7 +10,7 @@ import { vollkorn } from "utils/fonts";
 async function getRandomRecipe(): Promise<{ recipes: Array<Recipe> }> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SPOONACULAR_BASE_URL}/recipes/random?apiKey=${process.env.SPOONACULAR_API_KEY}&number=1`,
-    { next: { revalidate: 10 } }
+    { next: { revalidate: 60 } }
   );
 
   if (!res.ok) {
@@ -27,12 +27,12 @@ async function RandomRecipe() {
   const { title, summary, image, vegan, extendedIngredients } = recipes[0];
 
   return (
-    <article className="my-20 flex flex-col lg:my-32">
-      <section className="flex flex-col">
+    <article className="flex flex-col lg:my-16">
+      <section className="mt-16 flex flex-col">
         <h2 className={`${vollkorn.className} mb-8 text-4xl`}>{title}</h2>
         <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
           <p
-            className="flex-1"
+            className="flex-1 text-sm"
             dangerouslySetInnerHTML={{ __html: summary }}
           ></p>
 

@@ -2,6 +2,8 @@
 import { checkIngredients } from "is-vegan";
 import { ExtendedIngredient } from "types";
 
+import { vollkorn } from "utils/fonts";
+
 const getNonVeganIngredients = async (
   extendedIngredients: ExtendedIngredient[]
 ) => {
@@ -57,12 +59,13 @@ async function Subtitutes({
   );
 
   const substitutes = await getSubstitutes(nonVeganIngredients);
+  console.log("substitutes: ", substitutes);
 
-  if (!substitutes) return null;
+  if (!substitutes.length) return null;
 
   return (
-    <section>
-      <h3>Substitutes</h3>
+    <section className="my-16 flex flex-col">
+      <h3 className={`${vollkorn.className} mb-2 text-xl`}>Substitutes</h3>
 
       {substitutes.map(
         ({
@@ -72,7 +75,16 @@ async function Subtitutes({
           ingredient: string;
           substitutes: string[];
         }) => (
-          <p key={ingredient}>{ingredient}</p>
+          <div key={ingredient}>
+            <h4 className="mb-2 mt-6 text-sm font-bold">For {ingredient}:</h4>
+            <ul>
+              {substitutes.map((substitute) => (
+                <li key={substitute} className="text-sm">
+                  {substitute}
+                </li>
+              ))}
+            </ul>
+          </div>
         )
       )}
     </section>
